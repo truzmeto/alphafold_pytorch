@@ -20,8 +20,8 @@ def make_crops(seq_file):
         (seq_file.parent / f'{name}{suffix}').write_text(f'>{name}\n{seq}')
 
 def sequence_to_onehot(seq):
-    #mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVX')}
-    mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVA')}
+    mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVX')}
+    #mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVA')}
     num_entries = max(mapping.values()) + 1
     one_hot_arr = np.zeros((len(seq), num_entries), dtype=np.float32)
 
@@ -177,8 +177,8 @@ def feature_generation(seq_file, out_file):
         gap_count = np.float32(aln=='-')
         gap_matrix = np.expand_dims(np.matmul(gap_count.T, gap_count) / aln.shape[0], -1)
 
-        #mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVX-')}
-        mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVA-')}
+        mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVX-')}
+        #mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVA-')}
         seq_weight = sequence_weights(aln)
         hhblits_profile = np.zeros((L, 22), dtype=np.float32)
         reweighted_profile = np.zeros((L, 22), dtype=np.float32)
@@ -197,8 +197,8 @@ def feature_generation(seq_file, out_file):
         non_gapped_profile[:, -1] = 0
         non_gapped_profile /= non_gapped_profile.sum(-1).reshape(-1, 1)
 
-        #mapping = {aa: i for i, aa in enumerate('-ARNDCQEGHILKMFPSTWYVX')}
-        mapping = {aa: i for i, aa in enumerate('-ARNDCQEGHILKMFPSTWYVA')}
+        mapping = {aa: i for i, aa in enumerate('-ARNDCQEGHILKMFPSTWYVX')}
+        #mapping = {aa: i for i, aa in enumerate('-ARNDCQEGHILKMFPSTWYVA')}
         
         a2n = np.frompyfunc(lambda x: mapping[x], 1, 1)
         fi, fij, Meff = calculate_f(a2n(aln))

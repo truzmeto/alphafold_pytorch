@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TARGET="T1016"
-TARGET_DIR="test_data"
+TARGET_DIR="/home/tr443/Projects/docking/UrinXAlphaFold/test_data"
 TARGET_SEQ="${TARGET_DIR}/${TARGET}.seq" #fasta format
 PLMDCA_DIR="plmDCA/plmDCA_asymmetric_v2/"
 FILE_ALN="${TARGET_DIR}/${TARGET}.aln"
@@ -23,11 +23,12 @@ done
 python feature.py -s $TARGET_SEQ -f
 
 cd $PLMDCA_DIR
-for aln in ../../${TARGET_DIR}/*.aln; do
-	echo "calculate plmDCA for $aln"
-	#octave plmDCA.m $aln
-	matlab -batch  "plmDCA('${FILE_ALN}', '${FILE_MAT}')"
-done
+#for aln in ../../${TARGET_DIR}/*.aln; do
+echo "calculate plmDCA for $aln"
+#octave plmDCA.m $aln
+matlab -batch  "plmDCA('${FILE_ALN}', '${FILE_MAT}')"
+
+#done
 cd -
 
 #run again to update target features data
