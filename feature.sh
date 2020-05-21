@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET="T1024"
+TARGET="T1027"
 #TARGET_DIR="/home/tr443/Projects/docking/UrinXAlphaFold/test_data"
 TARGET_DIR="/projects/ccib/lamoureux/tr443/UrinXAlphaFold/${TARGET}_data"
 TARGET_SEQ="${TARGET_DIR}/${TARGET}.seq" #fasta format
@@ -26,7 +26,7 @@ done
 python feature.py -s $TARGET_SEQ -f
 
 cd $PLMDCA_DIR
-for aln in ../../${TARGET_DIR}/*.aln; do
+for aln in ${TARGET_DIR}/*.aln; do
     echo "calculate plmDCA for $aln"
     #octave plmDCA.m $aln
     #matlab -batch  "plmDCA('${aln}')"
