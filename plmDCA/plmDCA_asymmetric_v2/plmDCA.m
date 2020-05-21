@@ -23,13 +23,11 @@
 
 
 
-function plmDCA(fastafile,outputfile)
+function plmDCA(fastafile)
 %If should-be numericals are passed as strings, convert them.
     %args = argv();
     %fastafile = args{1};
-    %tmp1 = strfind(fastafile, '.'); %TR
-    %out = fastafile(1:tmp1(end)-1); %TR 
-    %out = fastafile(1:strfind(fastafile, '.')(end)-1);
+    out = fastafile(1:strfind(fastafile, '.')-1)+".mat";
     reweighting_threshold=0;
     nr_of_cores=4;
 
@@ -164,7 +162,7 @@ function plmDCA(fastafile,outputfile)
     end
     pseudo_bias = w(1:q, :)'; % Nx22
     pseudo_frob = NORMS; % NxN
-    save(outputfile, 'pseudolikelihood', 'pseudo_bias', 'pseudo_frob');
+    save(out, 'pseudolikelihood', 'pseudo_bias', 'pseudo_frob');
 
     %save(outputfile,'-struct','s', '-v7.3'); % changed last option to be
     %                                         % able to save large files %TR 

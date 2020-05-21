@@ -264,7 +264,9 @@ class ContactsNet(nn.Module):
         crop_size_x = (crop_x[:, 1] - crop_x[:, 0]).max()
         crop_size_y = (crop_y[:, 1] - crop_y[:, 0]).max()
 
-        increment = torch.unsqueeze(-torch.arange(0, crop_size_y), 0).to(crop_x.device)
+        #increment = torch.unsqueeze(-torch.arange(0, crop_size_y), 0).to(crop_x.device)
+        increment = torch.unsqueeze(-torch.arange(0, crop_size_y), 0).to(crop_x.device, dtype=torch.int)#TR
+      
         row_offsets = start_diag + increment
         row_offsets += padded_bias_size - 1
 

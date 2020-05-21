@@ -21,7 +21,6 @@ def make_crops(seq_file):
 
 def sequence_to_onehot(seq):
     mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVX')}
-    #mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVA')}
     num_entries = max(mapping.values()) + 1
     one_hot_arr = np.zeros((len(seq), num_entries), dtype=np.float32)
 
@@ -178,7 +177,6 @@ def feature_generation(seq_file, out_file):
         gap_matrix = np.expand_dims(np.matmul(gap_count.T, gap_count) / aln.shape[0], -1)
 
         mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVX-')}
-        #mapping = {aa: i for i, aa in enumerate('ARNDCQEGHILKMFPSTWYVA-')}
         seq_weight = sequence_weights(aln)
         hhblits_profile = np.zeros((L, 22), dtype=np.float32)
         reweighted_profile = np.zeros((L, 22), dtype=np.float32)
@@ -193,12 +191,14 @@ def feature_generation(seq_file, out_file):
         non_gapped_profile = np.zeros((L, 21), dtype=np.float32)
         for i in range(L):
             for j in aln[:, i]:
+
+                if j == 'X': #TR
+                    j = 'A'  #TR
                 non_gapped_profile[i, mapping[j]] += 1
         non_gapped_profile[:, -1] = 0
         non_gapped_profile /= non_gapped_profile.sum(-1).reshape(-1, 1)
 
         mapping = {aa: i for i, aa in enumerate('-ARNDCQEGHILKMFPSTWYVX')}
-        #mapping = {aa: i for i, aa in enumerate('-ARNDCQEGHILKMFPSTWYVA')}
         
         a2n = np.frompyfunc(lambda x: mapping[x], 1, 1)
         fi, fij, Meff = calculate_f(a2n(aln))
@@ -250,6 +250,10 @@ def feature_generation(seq_file, out_file):
         dataset.append(data)
     
     np.save(out_file, dataset, allow_pickle=True)
+    
+    #with open(out_file,'wb') as f:
+    #    pkl.dump(dataset, f)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Alphafold - PyTorch version')
@@ -259,9 +263,14 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--feature', default=False, action='store_true', help='make features')
     args = parser.parse_args()
 
-    SEQ_FILE = Path(args.seq)
+    SEQ_FILE=Path(args.seq)
+    #out="/home/tr443/Projects/docking/UrinXAlphaFold/test_data/T1016.pkl"                  
+    #OUT_FILE=Path(args.out) 
+
     if args.crop:
         make_crops(SEQ_FILE)
     elif args.feature:
         OUT_FILE = args.out if args.out is not None else SEQ_FILE.parent / SEQ_FILE.stem
+        #OUT_FILE="/home/tr443/Projects/docking/UrinXAlphaFold/test_data/T1016.pkl"
+        print(OUT_FILE)
         feature_generation(SEQ_FILE, OUT_FILE)

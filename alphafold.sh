@@ -1,9 +1,10 @@
 #!/bin/bash
 
-TARGET="T1019s2"
-TARGET_FILE="test_data/${TARGET}.pkl"
-MODEL_DIR="model"
-OUTPUT_DIR="${TARGET}_out"
+TARGET="T1016"
+DATA_DIR="/projects/ccib/lamoureux/tr443/UrinXAlphaFold"
+TARGET_FILE="${DATA_DIR}/${TARGET}_data/${TARGET}.npy"
+MODEL_DIR="${DATA_DIR}/model"
+OUTPUT_DIR="${DATA_DIR}/${TARGET}_out"
 
 echo -e "Saving output to ${OUTPUT_DIR}/\n"
 
