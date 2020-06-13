@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET="T1024"
+TARGET="T1032"
 DATA_DIR="/projects/ccib/lamoureux/tr443/UrinXAlphaFold"
 TARGET_FILE="${DATA_DIR}/${TARGET}_data/${TARGET}.npy"
 MODEL_DIR="${DATA_DIR}/model"
